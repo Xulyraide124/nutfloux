@@ -1,0 +1,39 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Env files (si tu utilises .env)
+.env
+
+# Dossiers de build (si tu as un dossier dist ou build)
+dist/
+build/
+
+# Fichiers temporaires
+*.tmp
+*.temp
+
+# Dossiers upload (si tu stockes les vidéos localement)
+uploads/
+videos/
+
+# Cache
+.cache/
+
+# Système
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Coverage reports
+coverage/
+

@@ -1,0 +1,67 @@
+<% 
+  // Fonction pour formater la date d'ajout de la vidéo
+  function formatDate(d) { 
+    return new Date(d).toLocaleString(); 
+  } 
+%>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Vidéos disponibles</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <main>
+    <h2>Liste des vidéos</h2>
+
+    <form method="GET" action="/videos" style="margin-bottom: 20px;">
+      <input
+        type="text"
+        name="search"
+        placeholder="Rechercher une vidéo..."
+        value="<%= search || '' %>"
+        style="padding: 8px; width: 250px;"
+      />
+      <button type="submit">🔍 Rechercher</button>
+      <input type="hidden" name="order" value="<%= order || 'asc' %>" />
+    </form>
+
+    <div style="margin-bottom: 20px;">
+      <a class="home-button" href="/videos?search=<%= encodeURIComponent(search || '') %>&order=<%= order === 'asc' ? 'desc' : 'asc' %>">
+        Trier par date (<%= order === 'asc' ? 'plus anciennes' : 'plus récentes' %>)
+      </a>
+    </div>
+
+    <div class="video-grid">
+      <% if (!videos || videos.length === 0) { %>
+        <p>Aucune vidéo trouvée.</p>
+      <% } else { %>
+        <% videos.forEach(video => { %>
+          <div class="video-card">
+            <% if (video.thumbnail) { %>
+              <img src="/thumbnails/<%= video.thumbnail %>" alt="Miniature" style="width: 100%; border-radius: 5px;" />
+            <% } else { %>
+              <img src="/default-thumb.png" alt="Miniature par défaut" style="width: 100%; border-radius: 5px;" />
+            <% } %>
+
+            <h3><%= video.title %></h3>
+            <p><small>Ajoutée le <%= formatDate(video.uploadedAt) %></small></p>
+
+            <a href="/player/<%= video.filename %>">▶ Voir</a>
+
+            <form action="/delete/<%= video.filename %>" method="POST" style="margin-top: 10px;">
+              <button type="submit" onclick="return confirm('Supprimer cette vidéo ?');">🗑️ Supprimer</button>
+            </form>
+          </div>
+        <% }) %>
+      <% } %>
+    </div>
+
+    <a href="/">⬅ Retour à l'accueil</a>
+  </main>
+</body>
+</html>

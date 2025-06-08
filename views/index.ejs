@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mini-Netflix - Upload</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    #error-popup {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #b30000;
+      color: white;
+      padding: 15px 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      display: none;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <main>
+    <h2>Uploader une vidéo</h2>
+
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+      <label>Vidéo :</label><br>
+      <input type="file" name="videoFile" accept="video/*" required><br><br>
+
+      <label>Miniature (facultatif - JPG/PNG) :</label><br>
+      <input type="file" name="thumbnail" accept="image/*"><br><br>
+
+      <label>Titre de la vidéo :</label><br>
+      <input type="text" name="videoTitle" required><br><br>
+
+      <button type="submit">Envoyer</button>
+    </form>
+    <div id="error-popup"></div>
+
+    <br>
+    <a href="/videos">Voir les vidéos</a>
+  </main>
+
+  
+
+  <script>
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+  const errorMsg = getQueryParam('error');
+if (errorMsg) {
+  const popup = document.getElementById('error-popup');
+  popup.innerHTML = `${decodeURIComponent(errorMsg)} <button class="close-btn" onclick="this.parentElement.style.display='none'">&times;</button>`;
+  popup.classList.add('show');
+
+  setTimeout(() => {
+    popup.style.display = 'none';
+  }, 5000);
+}
+
+  </script>
+</body>
+</html>
